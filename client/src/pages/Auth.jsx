@@ -1,6 +1,7 @@
 import React from "react";
 import { FaRobot } from "react-icons/fa6";
 import { IoSparkles } from "react-icons/io5";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
 import { FcGoogle } from "react-icons/fc";
 import { signInWithPopup } from "firebase/auth";

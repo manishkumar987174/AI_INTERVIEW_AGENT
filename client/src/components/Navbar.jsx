@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
 import { RiRobot3Fill } from "react-icons/ri";
 import { BsCoin } from "react-icons/bs";

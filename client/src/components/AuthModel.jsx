@@ -15,7 +15,7 @@ const AuthModel = ({ onClose }) => {
       <div className="relative w-full max-w-md">
         <button
           onClick={onClose}
-          className="absolute top-8 right-5 text-gray-800 hover:text-black text-xl"
+          className=" cursor-pointer absolute top-8 right-5 text-gray-800 hover:text-black text-xl"
         >
           <FaTimes size={18} />
         </button>
