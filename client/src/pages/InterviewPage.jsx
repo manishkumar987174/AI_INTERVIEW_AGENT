@@ -1,9 +1,34 @@
-import React from 'react'
+import React, { useState } from "react";
+import Step1Setup from "../components/Step1Setup";
+import Step2Interview from "../components/Step2Interview";
+import step3Report from "../components/Step3Report";
 
 const InterviewPage = () => {
-  return (
-    <div>InterviewPage</div>
-  )
-}
+  const [step, setStep] = useState(1);
+  const [interviewData, setinterviewData] = useState(null);
 
-export default InterviewPage
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {step === 1 && (
+        <Step1Setup
+          onStart={(data) => {
+            setinterviewData(data);
+            setStep(2);
+          }}
+        />
+      )}
+      {step === 2 && (
+        <Step2Interview
+          interviewData={interviewData}
+          onFinish={(report) => {
+            setinterviewData(report);
+            setStep(2);
+          }}
+        />
+      )}
+      {step === 3 && <step3Report report={interviewData} />}
+    </div>
+  );
+};
+
+export default InterviewPage;
