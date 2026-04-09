@@ -292,8 +292,6 @@ setIsSubmitting(false)
     setIsMicOn(false)
     try {
       const result = await axios.post(ServerUrl+ "/api/interview/finish" , { interviewId} , {withCredentials:true})
-
-      console.log(result.data)
       onFinish(result.data)
     } catch (error) {
       console.log(error)

@@ -36,9 +36,6 @@ function Step1SetUp({ onStart }) {
 
         try {
             const result = await axios.post(ServerUrl + "/api/interview/resume", formdata, { withCredentials: true })
-
-            console.log(result.data)
-
             setRole(result.data.role || "");
             setExperience(result.data.experience || "");
             setProjects(result.data.projects || []);
@@ -58,7 +55,6 @@ function Step1SetUp({ onStart }) {
         setLoading(true)
         try {
            const result = await axios.post(ServerUrl + "/api/interview/generate-questions" , {role, experience, mode , resumeText, projects, skills } , {withCredentials:true}) 
-           console.log(result.data)
            if(userData){
             dispatch(setUserData({...userData , credits:result.data.creditsLeft}))
            }
