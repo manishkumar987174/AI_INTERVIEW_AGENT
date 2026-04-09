@@ -76,7 +76,7 @@ export const askAi = async (messages) => {
                 model: model,
                 messages: messages,
                 ...(isOpenAi ? {} : { 
-                    'HTTP-Referer': 'http://localhost:5173',
+                    'HTTP-Referer': 'https://ai-interview-agent-1-6819.onrender.com',
                     'X-Title': 'InterviewIQ'
                 })
             },
@@ -111,4 +111,4 @@ export const askAi = async (messages) => {
         console.error("AI Service Error:", errorData.message || error.message);
         throw new Error("AI Service Failed to provide response");
     }
-}
+}
