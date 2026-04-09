@@ -1,41 +1,54 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Auth from "./pages/Auth";
-import { useEffect } from "react";
-import axios from "axios";
-import {useDispatch} from 'react-redux'
-import { setuserData } from "./redux/userSlice";
-import InterviewPage from "./pages/InterviewPage";
-export const serverUrl = "http://localhost:3000/";
-const App = () => {
+import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import Home from './pages/Home'
+import Auth from './pages/auth'
+import { useEffect } from 'react'
+import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { setUserData } from './redux/userSlice'
+import InterviewPage from './pages/InterviewPage'
+import InterviewHistory from './pages/InterviewHistory'
+import Pricing from './pages/Pricing'
+import InterviewReport from './pages/InterviewReport'
 
-  const dispatch = useDispatch(); 
-  useEffect(() => {
+export const ServerUrl  = "http://localhost:8000"
+
+function App() {
+
+  const dispatch = useDispatch()
+  useEffect(()=>{
     const getUser = async () => {
       try {
-        const result = await axios.get(`${serverUrl}api/user/current-user`, {
-          withCredentials: true,
-          
-        });
-
-        dispatch(setuserData(result.data))
-       
+        const result = await axios.get(ServerUrl + "/api/user/current-user", {withCredentials:true})
+        if (result.data) {
+          dispatch(setUserData(result.data))
+        } else {
+          dispatch(setUserData(null))
+        }
       } catch (error) {
-        console.log(error);
-        dispatch(setuserData(null))
-
+        // Only log non-authentication related errors
+        if (error.response && error.response.status !== 401 && error.response.status !== 400) {
+          console.log(error)
+        }
+        dispatch(setUserData(null))
       }
-    };
-    getUser();
-  }, [dispatch]);
+    }
+    getUser()
+
+  },[dispatch])
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/auth" element={<Auth />} />
-      <Route path="/interview" element={<InterviewPage />} />
-    </Routes>
-  );
-};
+      <Route path='/' element={<Home/>}/>
+      <Route path='/auth' element={<Auth/>}/>
+      <Route path='/interview' element={<InterviewPage/>}/>
+      <Route path='/history' element={<InterviewHistory/>}/>
+      <Route path='/pricing' element={<Pricing/>}/>
+      <Route path='/report/:id' element={<InterviewReport/>}/>
 
-export default App;
+
+
+    </Routes>
+  )
+}
+
+export default App
