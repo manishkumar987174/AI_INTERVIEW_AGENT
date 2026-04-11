@@ -36,14 +36,14 @@ function Step1SetUp({ onStart }) {
 
         try {
             const result = await axios.post(ServerUrl + "/api/interview/resume", formdata, { withCredentials: true })
-            setRole(result.data.role || "");
-            setExperience(result.data.experience || "");
+            setRole(result.data?.role || "");
+            setExperience(result.data?.experience || "");
             setProjects(result.data.projects || []);
             setSkills(result.data.skills || []);
             setResumeText(result.data.resumeText || "");
             setAnalysisDone(true);
-
             setAnalyzing(false);
+            console.log(result.data.role)
 
         } catch (error) {
             console.log(error)

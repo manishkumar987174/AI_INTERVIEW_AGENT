@@ -76,7 +76,7 @@ export const askAi = async (messages) => {
                 model: model,
                 messages: messages,
                 ...(isOpenAi ? {} : { 
-                    'HTTP-Referer': 'https://ai-interview-agent-1-6819.onrender.com',
+                    'HTTP-Referer': 'http://localhost:5173',
                     'X-Title': 'InterviewIQ'
                 })
             },
