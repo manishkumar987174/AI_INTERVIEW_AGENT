@@ -72,10 +72,14 @@ function Pricing() {
         { withCredentials: true },
       );
 
+      if (!result?.data || !result.data.amount || !result.data.id) {
+        throw new Error("Invalid payment order response from server.");
+      }
+
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-        amount: result?.data?.amount || 0,
-        order_id: result?.data?.id,
+        amount: result.data.amount,
+        order_id: result.data.id,
         currency: "INR",
         name: "InterviewIQ.AI",
         description: `${plan.name} - ${plan.credits} Credits`,
