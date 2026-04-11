@@ -78,7 +78,7 @@ Return strictly JSON:
 
 
     res.json({
-      role: parsed?.role,
+      role: parsed?.role?? "Not found",
       experience: parsed.experience,
       projects: parsed.projects,
       skills: parsed.skills,
