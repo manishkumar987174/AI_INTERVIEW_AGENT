@@ -14,7 +14,7 @@ import InterviewReport from './pages/InterviewReport'
 export const ServerUrl =
   window.location.hostname === "localhost"
     ? "http://localhost:8000"
-    : "https://ai-interview-agent-1-6819.onrender.com";
+    : "https://ai-interview-agent-r4gx.onrender.com";
 
 function App() {
 
