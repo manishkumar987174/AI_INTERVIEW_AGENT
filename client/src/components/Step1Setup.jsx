@@ -33,9 +33,10 @@ function Step1SetUp({ onStart }) {
     const formdata = new FormData();
     formdata.append("resume", resumeFile);
 
+    const activeUrl = window._serverUrl || ServerUrl;
     try {
       const result = await axios.post(
-        ServerUrl + "/api/interview/resume",
+        activeUrl + "/api/interview/resume",
         formdata,
         { withCredentials: true },
       );
@@ -69,9 +70,10 @@ function Step1SetUp({ onStart }) {
 
   const handleStart = async () => {
     setLoading(true);
+    const activeUrl = window._serverUrl || ServerUrl;
     try {
       const result = await axios.post(
-        ServerUrl + "/api/interview/generate-questions",
+        activeUrl + "/api/interview/generate-questions",
         { role, experience, mode, resumeText, projects, skills },
         { withCredentials: true },
       );
@@ -83,7 +85,12 @@ function Step1SetUp({ onStart }) {
       setLoading(false);
       onStart(result.data);
     } catch (error) {
-      console.log(error);
+      console.error("Start Interview Error:", error);
+      const errorMsg =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Failed to start interview";
+      alert(errorMsg);
       setLoading(false);
     }
   };

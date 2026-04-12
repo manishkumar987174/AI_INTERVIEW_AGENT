@@ -18,27 +18,50 @@ export const ServerUrl =
 
 function App() {
 
-  const dispatch = useDispatch()
-  useEffect(()=>{
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    const checkBackend = async () => {
+      if (window.location.hostname === "localhost") {
+        try {
+          // Attempt a quick ping to the local backend
+          await axios.get("http://localhost:8000/api/health", { timeout: 1000 });
+          console.log("Using local backend (localhost:8000)");
+        } catch (e) {
+          console.warn("Local backend not found. Falling back to production URL.");
+          // If local fails, we need to update the ServerUrl. 
+          // Since ServerUrl is an export, we can't change it easily, 
+          // but we can ensure future requests in this session use production.
+          window._serverUrl = "https://ai-interview-agent-r4gx.onrender.com";
+        }
+      }
+    };
+    
     const getUser = async () => {
+      await checkBackend();
+      const activeUrl = window._serverUrl || ServerUrl;
       try {
-        const result = await axios.get(ServerUrl + "/api/user/current-user", {withCredentials:true})
+        const result = await axios.get(activeUrl + "/api/user/current-user", {
+          withCredentials: true,
+        });
         if (result.data) {
-          dispatch(setUserData(result.data))
+          dispatch(setUserData(result.data));
         } else {
-          dispatch(setUserData(null))
+          dispatch(setUserData(null));
         }
       } catch (error) {
-        // Only log non-authentication related errors
-        if (error.response && error.response.status !== 401 && error.response.status !== 400) {
-          console.log(error)
+        if (
+          error.response &&
+          error.response.status !== 401 &&
+          error.response.status !== 400
+        ) {
+          console.log(error);
         }
-        dispatch(setUserData(null))
+        dispatch(setUserData(null));
       }
-    }
-    getUser()
-
-  },[dispatch])
+    };
+    getUser();
+  }, [dispatch]);
   return (
     <Routes>
       <Route path='/' element={<Home/>}/>

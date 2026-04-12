@@ -27,6 +27,7 @@ app.use("/api/auth" , authRouter)
 app.use("/api/user", userRouter)
 app.use("/api/interview" , interviewRouter)
 app.use("/api/payment" , paymentRouter)
+app.get("/api/health", (req, res) => res.status(200).json({ status: "ok" }));
 
 const PORT = process.env.PORT || 6000
 app.listen(PORT , ()=>{
