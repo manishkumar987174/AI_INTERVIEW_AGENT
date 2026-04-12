@@ -46,16 +46,23 @@ function Step1SetUp({ onStart }) {
         setSkills(result.data?.skills || []);
         setResumeText(result.data?.resumeText || "");
         setAnalysisDone(true);
+      } else {
+        // Handle cases where backend returns 200 null (legacy behavior)
+        alert("Session expired or unauthorized. Please log in again.");
       }
       setAnalyzing(false);
-      console.log(result.data.role);
     } catch (error) {
+      console.error("Resume Analysis Error:", error);
       const errorMsg =
         error?.response?.data?.message ||
         error?.message ||
         "Failed to analyze resume";
-      alert(errorMsg);
-      console.log(error);
+      
+      if (error?.response?.status === 401) {
+        alert("Unauthorized: Please log in to your account first.");
+      } else {
+        alert(errorMsg);
+      }
       setAnalyzing(false);
     }
   };

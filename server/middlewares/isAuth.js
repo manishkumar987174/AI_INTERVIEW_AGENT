@@ -6,12 +6,12 @@ const isAuth = async (req,res,next) => {
         let {token} = req.cookies
 
         if(!token){
-            return res.status(200).json(null)
+            return res.status(401).json({ message: "Unauthorized. Please login again." });
         }
         const verifyToken = jwt.verify(token , process.env.JWT_SECRET)
         
         if(!verifyToken){
-            return res.status(200).json(null)
+            return res.status(401).json({ message: "Invalid or expired token. Please login again." });
         }
         req.userId = verifyToken.userId
 

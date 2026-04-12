@@ -6,14 +6,22 @@ import Interview from "../models/interview.model.js";
 
 const extractJSON = (text) => {
   try {
-    const match = text.match(/\{[\s\S]*\}/);
+    // Remove markdown code blocks if present
+    const cleanText = text.replace(/```json|```/g, "").trim();
+    const match = cleanText.match(/\{[\s\S]*\}/);
     if (match) {
       return JSON.parse(match[0]);
     }
-    return JSON.parse(text);
+    return JSON.parse(cleanText);
   } catch (error) {
     console.error("JSON Parse Error:", error, "Original Text:", text);
-    throw new Error("Failed to parse AI response as JSON");
+    // Return a fallback object instead of throwing to prevent 500 errors
+    return {
+      role: "Not found",
+      experience: "Not found",
+      projects: [],
+      skills: []
+    };
   }
 };
 
